@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='styles.css' type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=BakBak_One|Raleway">
+
+    <script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
+    <script src="twitch.js"></script>
+    <script src="/characters/characters.js"></script>
+    <script src="modifiers.js"></script>
+    <script src="titles.js"></script>
+    <script src="/stopwatch/stopwatch.js"></script>
+    <script src="/match/match.js"></script>
+    <script src="/card/card.js"></script>
+    <script src="scriptone.js"></script>
+
+    <title>OVERTHINK</title>
+
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="logo-container"></div>
+
+        <textarea class="title" id="title" rows="2" spellcheck="false">OVERTHINK</textarea>
+
+        <div class="menu-container">
+
+            <button class="randomize-title-button" id="randomizeTitle-button" title="Randomizza titolo"
+                onclick="randomizeTitle()"><span class="material-icons shuffle-icon">
+                    shuffle
+                </span></button>
+
+            <button class="settings-button" id="settings-button" type="button" data-bs-toggle="modal"
+                data-bs-target="#menuModal"><span class="material-icons settings-icon">settings</span></button>
+        </div>
+    </div>
+
+
+    <div class="match-container">
+
+        <div class="character-card" id="character-card-left">
+
+            <div class="character-button-container">
+                <button id="randomize-character-left" class="character-button randomize left"><span
+                        class="material-icons shuffle-icon">
+                        shuffle
+                    </span></button>
+                <button id="customize-character-left" class="character-button customize left" data-bs-toggle="modal"
+                    data-bs-target="#customcharacterModal" onclick="selectedcharacter = 'left'"><span
+                        class="material-icons">
+                        edit
+                    </span></button>
+            </div>
+
+            <img class="character-img" id="vs-participant-left" src="">
+
+            <div class="character-card-description" id="character-card-description-left">
+
+                <span class="character-label left" id="character-label-left" contenteditable="true"
+                    spellcheck="false">PERSONAGGIO SINISTRA</span>
+
+                <div class="modifier-container" id="modifier-container-left">
+
+                    <span class="modifier-title">Modificatore</span>
+
+
+                    <textarea class="modifier-textarea" placeholder="Inserisci modificatore..." id="modifier-left"
+                        contenteditable="true" spellcheck="false" rows="3"></textarea>
+
+
+                    <div class="modifier-container-buttons">
+                        <button type="button" id="randomize-modifier-left" class="modifier-button randomize left"
+                            title="Randomizza modificatore"><span class="material-icons shuffle-icon">
+                                shuffle
+                            </span></button>
+                        <button type="button" id="clear-modifier-left" class="modifier-button clear left"
+                            title="Elimina modificatore"><span class="material-icons">
+                                delete
+                            </span></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="center-screen-container">
+
+            <div class="twitch hidden twitch-voteCommands-title" id="twitch-voteCommands-title">Per votare digita:
+            </div>
+
+            <div class="twitch hidden twitch-voteCommands-container" id="twitch-voteCommands-container">
+
+                <div class="twitch-voteCommands-label left" id="twitch-voteLeft-label">#1</div>
+                <div class="twitch-voteCommands-label right" id="twitch-voteRight-label">#2</div>
+
+
+            </div>
+
+            <div class="newMatch-button-container">
+
+                <button class="newMatch-button" onclick="newRandomMatch()"><span class="material-icons shuffle-icon"
+                        id="newMatch-shuffle-icon">
+                        shuffle
+                    </span><span class="vs-label">VS</span></button>
+
+                <div class="circular twitch-piechart-container twitch hidden" id="twitch-piechart-container">
+
+                    <svg height="100%" width="100%">
+                        <circle cx="50%" cy="50%" r="50%" stroke-width="100%" />
+                    </svg>
+
+                </div>
+            </div>
+
+            <div class="hidden twitch twitch-percentages-container" id="twitch-percentages-container">
+
+                <div class="twitch-percentage-label left" id="twitch-left-percentage">50%</div>
+                <div class="twitch-percentage-label right" id="twitch-right-percentage">50%</div>
+
+            </div>
+
+            <div class="twitch hidden stopwatch" id="stopwatch">
+                <input class="stopwatch-button" type="button" value="Start" id="sw-go" />
+
+                <!-- CURRENT TIME -->
+                <div class="sw-time-container">
+                    <span id="sw-time">00:00</span>
+                </div>
+
+                <!-- CONTROLS -->
+                <input class="stopwatch-button" type="button" value="Reset" id="sw-rst" />
+
+            </div>
+
+        </div>
+
+
+        <div class="character-card" id="character-card-right">
+
+            <div class="character-button-container">
+                <button id="randomize-character-right" class="character-button randomize right"><span
+                        class="material-icons shuffle-icon">
+                        shuffle
+                    </span></button>
+                <button id="customize-character-right" class="character-button customize right" data-bs-toggle="modal"
+                    data-bs-target="#customcharacterModal" onclick="selectedcharacter = 'right'"><span
+                        class="material-icons">
+                        edit
+                    </span></button>
+            </div>
+
+            <img class="character-img" id="vs-participant-right" src="">
+
+            <div class="character-card-description" id="character-card-description-right">
+
+                <span class="right character-label" onchange="updateMatchData()" id="character-label-right"
+                    contenteditable="true" spellcheck="false">PERSONAGGIO DESTRA</span>
+
+                <div class="modifier-container" id="modifier-container-right">
+
+                    <span class="modifier-title">Modificatore</span>
+
+
+                    <textarea class="modifier-textarea" placeholder="Inserisci modificatore..." id="modifier-right"
+                        contenteditable="true" spellcheck="false" rows="3"></textarea>
+
+                    <div class="modifier-container-buttons">
+                        <button id="randomize-modifier-right" class="modifier-button randomize right"
+                            title="Randomizza modificatore"><span class="material-icons shuffle-icon">
+                                shuffle
+                            </span></button>
+                        <button id="clear-modifier-right" class="modifier-button clear right"
+                            title="Elimina modificatore"><span class="material-icons">
+                                delete
+                            </span></button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Settings Modal -->
+    <div class="modal hidden" id="settings-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 class="modal-title">Settings</h2>
+                <button type="button" class="modal-close-button" id="settings-modal-close-button"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="options-container" id="generalOptions-container">
+
+                    <div class="twitchSafeMode-container">
+
+                        <input type="checkbox" class="twitch-safeMode-checkbox" id="twitchSafeMode-checkbox"
+                            name="twitchSafeMode-checkbox" value="false">
+                        <label for="twitchSafeMode-checkbox"> Twitch Safe Mode</label><br>
+
+                    </div>
+
+                    <div class="color-picker-container">
+
+                        <input type="color" class="color-picker" id="color-picker-left" value="#ff00b1">
+                        <input type="color" class="color-picker" id="color-picker-right" value="#8cc63f">
+
+                    </div>
+
+                </div>
+
+                <div class="twitch-options-container" id="twitch-options-container">
+
+                    <div class="twitch-username-container">
+
+                        <input type="text" id="twitchUsernameInput" placeholder="Twitch username">
+
+                        <button class="twitch-connection-button" type="button" id="twitch-connection-button"> CONNECT
+                        </button>
+
+                    </div>
+
+                    <div class="twitch hidden twitch-extra-options" id="twitch-extra-options">
+                        <input type="text" class="twitch-vote-command" id="voteLeftCommand-input"
+                            placeholder="#1">
+                        <input type="text" class="twitch-vote-command" id="voteRightCommand-input"
+                            placeholder="#2">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Custom character Modal -->
+    <div class="modal hidden" id="customCharacter-modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 class="modal-title">Customize Character</h2>
+                <button type="button" class="modal-close-button" id="customCharacter-modal-close-button"></button>
+            </div>
+            <div class="modal-body">
+                    <input type="url" class="form-control" id="customImage-input"
+                        
+                        placeholder="URL dell'immagine">
+                <img id="characterPreview" src="">
+                <button class="confirmCustomcharacterButton" onclick="customizeCharacter()">SELECT</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+</body>
+
+</html>

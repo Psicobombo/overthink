@@ -1,0 +1,13 @@
+
+@PORT = {{$dotenv PORT}}
+@baseUrl = http://localhost:{{PORT}}
+
+# CHARACTERS
+### get all characters
+GET {{baseUrl}}/api/characters
+
+### get one random character
+GET {{baseUrl}}/api/characters/random
+
+### get characters by query parameters (no params => all character)
+GET {{baseUrl}}/api/characters/

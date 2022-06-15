@@ -41,8 +41,6 @@ const settings = {
             r.style.setProperty('--right-primary', this.right);
         }
     }
-
-
 }
 
 // listen for load event in the window

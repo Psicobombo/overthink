@@ -7,7 +7,11 @@ const characterSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: true
+    required: true,
+    trim: true,
+    validate(image) {
+        // TODO: inser validation funcion for image url
+    }
   },
   categories: [String],
   isTwitchSafe: {
@@ -21,6 +25,7 @@ const characterSchema = new mongoose.Schema({
   }
 })
 
+// example custom method of a schema
 characterSchema.methods.sayHi = function () {
   console.log(`ciao mi chiamo ${this.name}`)
 }

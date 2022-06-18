@@ -24,22 +24,7 @@ class Match {
         let titleDiv = document.getElementById("title")
         titleDiv.innerText = this.title.label
 
-        // // set left card image
-        // let leftImage = document.getElementById("vs-participant-left")
-        // leftImage.src = this.leftCard.character.image
-
-        // // set left card label
-        // document.getElementById("character-label-left").innerText = this.leftCard.character.name
-
-        // // set right card image
-        // let rightParticipant = document.getElementById("vs-participant-right")
-        // rightParticipant.src = this.rightCard.character.image
-
-        // // set right card label
-        // document.getElementById("character-label-right").innerText = this.rightCard.character.name
-
         updatePieChart()
-
     }
 
     resetPoll() {
@@ -53,8 +38,6 @@ class Match {
     }
 
     end() {
-        
-        console.info("Match ended")
         endedMatches.push(this)
 
         // remove event listener from past cards

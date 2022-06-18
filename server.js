@@ -29,7 +29,7 @@ mongoose.connection.once("connected", () => {
 //event fires on database connection error
 mongoose.connection.on("error", (e) => console.error(e))
 
-// routers for the API
+// initialize Routers for the API
 const characterRouter = require('./routes/characters')
 app.use('/api/characters', characterRouter)
 const modifierRouter = require('./routes/modifiers')

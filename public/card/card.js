@@ -1,4 +1,3 @@
-// WORK IN PROGRESS CLASS, NOT CURRENTLY IN USE
 class Card {
     constructor(character, HTMLid) {
 
@@ -57,7 +56,7 @@ class Card {
     }
 
     set character(characterObj) {
-
+         // update internal object
         this._character = characterObj
 
         // update HTML elements
@@ -66,10 +65,10 @@ class Card {
     }
 
     set modifier(modifier) {
-
+         // update internal object
         this._modifier = modifier
 
-        // update HTML elements
+        // update HTML element
         this.elements.modifierTextarea.value = modifier?.label || ""
     }
 

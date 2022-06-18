@@ -77,7 +77,7 @@ const twitch = {
             twitch.isConnected = true
             twitch.connectedTo = username
 
-            console.log(`Connected to: ${username}'s chat`)
+            console.info(`Connected to: ${username}'s chat`)
 
             // set text box style to valid
             setValidStyle(twitch.usernameInput);

@@ -2,12 +2,32 @@
 @PORT = {{$dotenv PORT}}
 @baseUrl = http://localhost:{{PORT}}
 
-# CHARACTERS
+                            # CHARACTERS
 ### get all characters
 GET {{baseUrl}}/api/characters
 
 ### get one random character
 GET {{baseUrl}}/api/characters/random
 
-### get characters by query parameters (no params => all character)
-GET {{baseUrl}}/api/characters/
+### get characters by query parameters (no params => all characters)
+GET {{baseUrl}}/api/characters/?name=Pino Daniele
+
+                            # MODIFIER
+### get all modifiers
+GET {{baseUrl}}/api/modifiers
+
+### get one random modifier
+GET {{baseUrl}}/api/modifiers/random
+
+### get modifiers by query parameters (no params => all modifiers)
+GET {{baseUrl}}/api/modifiers/?id=
+
+                            # TITLES
+### get all titles
+GET {{baseUrl}}/api/titles
+
+### get one random title
+GET {{baseUrl}}/api/titles/random
+
+### get titles by query parameters (no params => all titles)
+GET {{baseUrl}}/api/titles/?id

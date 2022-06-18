@@ -10,7 +10,7 @@ const characterSchema = new mongoose.Schema({
     required: true,
     trim: true,
     validate(image) {
-        // TODO: inser validation funcion for image url
+        // TODO: inser validation funcion for image url (check if url is valid)
     }
   },
   categories: [String],

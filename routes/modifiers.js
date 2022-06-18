@@ -1,29 +1,28 @@
 const express = require('express')
 const router = express.Router()
-const Modifier = require('../models/modifier')
+const Modifier = require('../models/Modifier')
 
 // getting all modifiers
-router.get('/', async (req, res) => {
+router.get('/all', async (req, res) => {
     try {
         const allModifiers = await Modifier.find()
         res.json(allModifiers)
-
     } catch (error) {
         res.status(500).json({ message: err.message })
-
     }
-
 })
 
-// getting one specific modifier by id
-router.get('/:id', getModifier, (req, res) => {
+// getting modifiers by query parameters
+// no query params => get all the modifiers
+router.get('/', getModifier, (req, res) => {
     res.json(res.modifier)
 })
 
+
 // getting one random modifier     TODO: TwitchSafeMode
-router.get('/', async (req, res) => {
+router.get('/random', async (req, res) => {
     try {
-        const modifier = await Modifier.aggregate([{$sample:{size:1}}])   // get one random modifier from db
+        const modifier = await Modifier.aggregate().sample(1)   // get one random element from db
         res.json(modifier)
     } catch (error) {
         res.status(500).json({ message: error.message }) 
@@ -49,11 +48,19 @@ router.post('/', async (req, res) => {
 
 })
 
-// middleware function to getModifier by id
+// middleware function to getModifier using query parameters
+// no query params => get all the modifiers
 async function getModifier(req, res, next) {
     let modifier
+    let findFilter = {}
+
+    // build the filter object with the query parameters 
+    for(parameter in req.query) {
+        findFilter[parameter] = req.query[parameter]
+    }
+    
     try {
-        modifier = await Modifier.findById(req.params.id)
+        modifier = await Modifier.find(findFilter)
         if (modifier == null) {
             return res.status(404).json({ message: "Modifier not found" })
         }

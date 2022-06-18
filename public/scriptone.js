@@ -4,22 +4,26 @@ var selectedCard
 
 
 
-async function getCharacter() {
-    const response = await fetch('/api/character')
-    const data = await response.json()
-    console.log(data)
+async function getRandomCharacter() {
+    const response = await fetch('/api/characters/random')
+    const charactersArray = await response.json()
+    // console.log(charactersArray)
+    return charactersArray[0];
 }
 
+async function getRandomTitle() {
+    const response = await fetch('/api/titles/random')
+    const titlesArray = await response.json()
+    // console.log(titlesArray[0])
+    return titlesArray[0];
+}
 
-
-getCharacter()
-
-
-
-
-
-
-
+async function getRandomModifier() {
+    const response = await fetch('/api/modifiers/random')
+    const modifiersArray = await response.json()
+    // console.log(modifiersArray[0])
+    return modifiersArray[0]
+}
 
 
 const settings = {
@@ -44,7 +48,7 @@ const settings = {
 }
 
 // listen for load event in the window
-window.addEventListener("load",  () => {
+window.addEventListener("load", () => {
 
     // initialize shit
     sw.init()
@@ -55,34 +59,24 @@ window.addEventListener("load",  () => {
 
     customCharacterModal.init()
 
-    // add event listener for button clicks on cards
-    let characterCardsElements = document.querySelectorAll(".character-card")
-
-    characterCardsElements.forEach(cardElement => {
-        cardElement.addEventListener("click", cardButtonHandler, false)
-    });
-
-    // not passing title parameter => title defaults to "OVERTHINK"
-    new Match(
-        {
-            character1: getValidRandom(characters),
-            character2: getValidRandom(characters)
-        })
+    newRandomMatch()
 
 });
 
-function newRandomMatch() {
+async function newRandomMatch() {
+
+    if (activeMatch) {activeMatch.end()}
 
     new Match({
-        character1: getValidRandom(characters),
-        character2: getValidRandom(characters),
-        title: getValidRandom(titles)
+        character1: await getRandomCharacter(),
+        character2: await getRandomCharacter(),
+        title: await getRandomTitle()
     })
 
     resetModifiers()
 }
 
-function randomizeTitle() {
+async function randomizeTitle() {
 
     let titleElement = document.getElementById("title")
 
@@ -91,7 +85,7 @@ function randomizeTitle() {
     let randomTitle
 
     do {
-        randomTitle = getValidRandom(titles)
+        randomTitle = await getRandomTitle()
 
     } while (randomTitle.label === currentTitle);  // make sure random title is different than current title
 
@@ -99,47 +93,10 @@ function randomizeTitle() {
     titleElement.value = randomTitle.label
 }
 
-function randomizeModifier(id) {
-
-    modifierElement = id === "left" ? document.getElementById("modifier-left") : document.getElementById("modifier-right")
-
-    currentModifier = modifierElement.value
-
-    let randomModifier
-
-    do {
-        randomModifier = getValidRandom(modifiers)
-
-    } while (randomModifier.label === currentModifier);  // make sure random modifier is different than current modifier
-
-    modifierElement.value = randomModifier.label
-}
-
-function clearModifier(id) {
-
-    modifierElement = id === "left" ? document.getElementById("modifier-left") : document.getElementById("modifier-right")
-    modifierElement.value = ""
-}
-
 function resetModifiers() {
 
-    clearModifier("left")
-    clearModifier("right")
-}
-
-function randomizeCharacter(id) {
-
-    updateMatchData()
-
-    if (id === "left") {
-        activeMatch.leftCharacter = getValidRandom(characters)
-
-    } else {
-        activeMatch.rightCharacter = getValidRandom(characters)
-    }
-
-    activeMatch.display()
-    activeMatch.resetPoll()
+    activeMatch.leftCard.clearModifier()
+    activeMatch.rightCard.clearModifier()
 }
 
 function customizeCharacter() {
@@ -152,21 +109,6 @@ function customizeCharacter() {
         document.getElementById("vs-participant-right").src = inputURL
     }
 }
-
-function getValidRandom(array) {
-
-    // returns random element from parsed array && if needed checks if element is twitch safe
-
-    do {
-
-        randomElement = array[Math.floor(Math.random() * array.length)]
-
-    } while (settings.twitchSafeMode && !randomElement.isTwitchSafe);   //if twitchSafeMode is enabled make sure element is twitch friendly 
-
-    return randomElement;
-}
-
-
 
 function updatePieChart() {
 
@@ -235,38 +177,6 @@ function shuffle(array) {
             array[randomIndex], array[currentIndex]];
     }
     return array;
-}
-
-function cardButtonHandler(e) {
-
-    //TODO: put it in card class once ready
-
-    // currentTarget = element attached to event listener (card); target = clicked element (icons are ignored via css)
-    if (e.target != e.currentTarget) {
-
-        // set which card to modify
-        if (e.currentTarget.id === "character-card-left") {
-            selectedCard = "left"
-        } else {
-            selectedCard = "right"
-        }
-
-        // execute function based on button id
-
-        clickedId = e.target.id
-        if
-            (clickedId.includes("randomize-character")) { randomizeCharacter(selectedCard) }
-        else if
-            (clickedId.includes("customize-character")) { customCharacterModal.toggleVisibility()}
-        else if
-            (clickedId.includes("randomize-modifier")) { randomizeModifier(selectedCard) }
-        else if
-            (clickedId.includes("clear-modifier")) { clearModifier(selectedCard) }
-
-
-    }
-    // prevents event to bubble up and trigger other listeners
-    e.stopPropagation();
 }
 
 

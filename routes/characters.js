@@ -1,9 +1,9 @@
 const express = require('express')
 const { ObjectId } = require('mongodb')
 const router = express.Router()
-const Character = require('../models/character')
+const Character = require('../models/Character')
 
-// getting all characters
+// getting all characters (not really needed)
 router.get('/all', async (req, res) => {
     try {
         const allCharacters = await Character.find()
@@ -22,7 +22,7 @@ router.get('/', getCharacter, (req, res) => {
 // getting one random character     TODO: TwitchSafeMode
 router.get('/random', async (req, res) => {
     try {
-        const character = await Character.aggregate([{ $sample: { size:1 }}])   // get one random character from db
+        const character = await Character.aggregate().sample(1)   // get one random character from db
         res.json(character)
     } catch (error) {
         res.status(500).json({ message: error.message }) 
@@ -44,10 +44,7 @@ router.post('/', async (req, res) => {
         res.status(201).json(newCharacter)   // status 201 = successfully created object
     } catch (error) {
         res.status(400).json({ message: error.message })     // status 400 = wrong user input
-
     }
-
-
 })
 
 // middleware function to getCharacter using query parameters
@@ -58,11 +55,11 @@ async function getCharacter(req, res, next) {
 
     // build the filter object with the query parameters 
     for(parameter in req.query) {
-        characterFilter[parameter] = req.query[parameter]
+        findFilter[parameter] = req.query[parameter]
     }
     
     try {
-        character = await Character.find(characterFilter)
+        character = await Character.find(findFilter)
         if (character == null) {
             return res.status(404).json({ message: "Character not found" })
         }

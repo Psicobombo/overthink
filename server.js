@@ -6,9 +6,9 @@ const mongoose = require('mongoose');
 require('dotenv').config()
 
 // models (= collections in db)
-const Character = require('./models/character')
-const Modifier = require('./models/modifier')
-const Title = require('./models/title')
+const Character = require('./models/Character')
+const Modifier = require('./models/Modifier')
+const Title = require('./models/Title')
 
 // initialize .env variables
 const DATABASE_USER = process.env.DATABASE_USER
@@ -22,8 +22,8 @@ mongoose.connect(`mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@overthink-
 
 // event fires on database successfully connected
 mongoose.connection.once("connected", () => {
-    console.log("Connected to Database")
-    app.listen(PORT, () => console.log(`Server running at port ${PORT}`))
+    console.info("Connected to Database")
+    app.listen(PORT, () => console.info(`Server running at port ${PORT}`))
 })
 
 //event fires on database connection error

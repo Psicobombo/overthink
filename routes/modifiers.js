@@ -44,8 +44,6 @@ router.post('/', async (req, res) => {
         res.status(400).json({ message: error.message })     // status 400 = wrong user input
 
     }
-
-
 })
 
 // middleware function to getModifier using query parameters

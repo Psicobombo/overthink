@@ -12,7 +12,7 @@ GET {{baseUrl}}/api/characters/random
 ### get characters by query parameters (no params => all characters)
 GET {{baseUrl}}/api/characters/?name=Pino Daniele
 
-                            # MODIFIER
+                            # MODIFIERS
 ### get all modifiers
 GET {{baseUrl}}/api/modifiers
 

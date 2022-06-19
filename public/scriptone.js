@@ -30,7 +30,7 @@ const settings = {
     twitchSafeMode: false,
     updateTwitchSafeMode() {
         settings.twitchSafeMode = document.getElementById("twitchSafeMode-checkbox").checked;
-        console.log(`Twitch Safe Mode: ${settings.twitchSafeMode}`)
+        console.info(`Twitch Safe Mode: ${settings.twitchSafeMode}`)
     },
     colors: {
         left: '#ff00b1',

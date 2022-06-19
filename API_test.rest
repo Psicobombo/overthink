@@ -7,7 +7,7 @@
 GET {{baseUrl}}/api/characters
 
 ### get one random character
-GET {{baseUrl}}/api/characters/random
+GET {{baseUrl}}/api/characters/random?twitchSafeMode=false
 
 ### get characters by query parameters (no params => all characters)
 GET {{baseUrl}}/api/characters/?name=Pino Daniele
@@ -17,7 +17,7 @@ GET {{baseUrl}}/api/characters/?name=Pino Daniele
 GET {{baseUrl}}/api/modifiers
 
 ### get one random modifier
-GET {{baseUrl}}/api/modifiers/random
+GET {{baseUrl}}/api/modifiers/random?twitchSafeMode=false
 
 ### get modifiers by query parameters (no params => all modifiers)
 GET {{baseUrl}}/api/modifiers/?id=
@@ -27,7 +27,7 @@ GET {{baseUrl}}/api/modifiers/?id=
 GET {{baseUrl}}/api/titles
 
 ### get one random title
-GET {{baseUrl}}/api/titles/random
+GET {{baseUrl}}/api/titles/random?twitchSafeMode=false
 
 ### get titles by query parameters (no params => all titles)
 GET {{baseUrl}}/api/titles/?id

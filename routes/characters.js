@@ -22,7 +22,9 @@ router.get('/', getCharacter, (req, res) => {
 // getting one random character     TODO: TwitchSafeMode
 router.get('/random', async (req, res) => {
     try {
-        const character = await Character.aggregate().sample(1)   // get one random character from db
+        let findFilter = {}
+        if (req.query.twitchSafeMode === true) {findFilter.isTwitchSafe = true}
+        const character = await Character.aggregate().match(findFilter).sample(1)   // get one random character from db
         res.json(character)
     } catch (error) {
         res.status(500).json({ message: error.message }) 

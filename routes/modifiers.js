@@ -22,7 +22,9 @@ router.get('/', getModifier, (req, res) => {
 // getting one random modifier     TODO: TwitchSafeMode
 router.get('/random', async (req, res) => {
     try {
-        const modifier = await Modifier.aggregate().sample(1)   // get one random element from db
+        let findFilter = {}
+        if (req.query.twitchSafeMode === true) {findFilter.isTwitchSafe = true}
+        const modifier = await Modifier.aggregate().match(findFilter).sample(1)   // get one random element from db
         res.json(modifier)
     } catch (error) {
         res.status(500).json({ message: error.message }) 

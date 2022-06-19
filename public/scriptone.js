@@ -4,21 +4,21 @@ var selectedCard
 
 
 async function getRandomCharacter() {
-    const response = await fetch('/api/characters/random')
+    const response = await fetch(`/api/characters/random?twitchSafeMode=${settings.twitchSafeMode}`)
     const charactersArray = await response.json()
     // console.log(charactersArray)
     return charactersArray[0];
 }
 
 async function getRandomTitle() {
-    const response = await fetch('/api/titles/random')
+    const response = await fetch(`/api/titles/random?twitchSafeMode=${settings.twitchSafeMode}`)
     const titlesArray = await response.json()
     // console.log(titlesArray[0])
     return titlesArray[0];
 }
 
 async function getRandomModifier() {
-    const response = await fetch('/api/modifiers/random')
+    const response = await fetch(`/api/modifiers/random?twitchSafeMode=${settings.twitchSafeMode}`)
     const modifiersArray = await response.json()
     // console.log(modifiersArray[0])
     return modifiersArray[0]

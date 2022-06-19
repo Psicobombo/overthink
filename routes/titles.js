@@ -20,7 +20,9 @@ router.get('/', getTitle, (req, res) => {
 // getting one random title     TODO: TwitchSafeMode
 router.get('/random', async (req, res) => {
     try {
-        const title = await Title.aggregate().sample(1)   // get one random element from db
+        let findFilter = {}
+        if (req.query.twitchSafeMode === true) {findFilter.isTwitchSafe = true}
+        const title = await Title.aggregate().match(findFilter).sample(1)   // get one random element from db
         res.json(title)
     } catch (error) {
         res.status(500).json({ message: error.message }) 

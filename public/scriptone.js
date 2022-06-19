@@ -3,7 +3,6 @@ var endedMatches = []
 var selectedCard
 
 
-
 async function getRandomCharacter() {
     const response = await fetch('/api/characters/random')
     const charactersArray = await response.json()

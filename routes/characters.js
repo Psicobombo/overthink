@@ -53,7 +53,7 @@ router.post('/', async (req, res) => {
 // no query params => get all the characters
 async function getCharacter(req, res, next) {
     let character
-    let characterFilter = {}
+    let findFilter = {}
 
     // build the filter object with the query parameters 
     for(parameter in req.query) {
